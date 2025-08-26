@@ -1,0 +1,85 @@
+TITLE: Items Earned Calculator
+DESCRIPTION: A modern web tool to calculate how many items you can earn over a given duration.
+AUTHOR: ElecDeemTV
+DATE: 2025-08-26
+TAGS: calculator, items, web-tool, JavaScript, HTML, CSS
+LICENSE: MIT
+LIVE DEMO: https://elecdeemtv.github.io/itemcalculator/
+SCREENSHOT: ./screenshot.png
+
+------------------------------------------------------------
+🏆 Items Earned Calculator
+------------------------------------------------------------
+
+A modern web tool to calculate how many items you can earn over a given duration.
+Enter a time, and see total items, rounded items, leftover seconds, and expected rare drop chances instantly.
+
+------------------------------------------------------------
+FEATURES
+------------------------------------------------------------
+- Flexible Time Input: supports days (d), hours (h), minutes (m), seconds (s), and HH:MM:SS format
+- Automatic Calculation: 1 item per 10 seconds
+- Results Display: total seconds, exact items, full items, leftover seconds
+- Drop Chances: expected values for rare items (0.003% each)
+- Interactive Examples: click chips to auto-fill input
+
+------------------------------------------------------------
+USAGE
+------------------------------------------------------------
+1. Open the calculator in your browser or locally (index.html).
+2. Enter a duration in the input field:
+   Examples: 
+      - 10 h
+      - 1h 30m
+      - 540s
+      - 1:30:00
+      - 2 days 5 hours
+3. Click the "Calculate" button or press Enter.
+4. The results will show in the tiles:
+   - Total seconds
+   - Exact items
+   - Full items (rounded down)
+   - Leftover seconds
+   - Expected rare drop amounts
+5. Use the "Clear" button to reset the input and results.
+6. Click on any example chip to automatically fill the input and calculate.
+
+------------------------------------------------------------
+INSTALLATION / LOCAL USAGE
+------------------------------------------------------------
+1. Clone the repository or download `index.html`.
+2. Open the file in any modern web browser.
+3. Fully functional offline – no server or dependencies required.
+
+------------------------------------------------------------
+FORMULAS
+------------------------------------------------------------
+- Items earned:
+    items = total_seconds / 10
+- Full items (rounded down):
+    itemsFloor = Math.floor(items)
+- Leftover seconds:
+    leftover = total_seconds - (itemsFloor * 10)
+- Expected rare drop (0.003%):
+    expected = items * 0.00003
+
+------------------------------------------------------------
+LIVE DEMO
+------------------------------------------------------------
+Try it live in your browser:
+https://elecdeemtv.github.io/itemcalculator/
+
+------------------------------------------------------------
+SCREENSHOT
+------------------------------------------------------------
+Calculator interface preview: ./screenshot.png
+
+------------------------------------------------------------
+LICENSE
+------------------------------------------------------------
+This project is licensed under the MIT License – see LICENSE for details.
+
+------------------------------------------------------------
+AUTHOR
+------------------------------------------------------------
+ElecDeemTV – fast and simple item earning calculations with modern UI. Fully customizable.

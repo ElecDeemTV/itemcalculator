@@ -77,6 +77,8 @@ itemsFloor = Math.floor(items)
 leftover = total_seconds - (itemsFloor * 10)
 expected = items * 0.00003
 ```
-🌐 Live Demo
+
+---
+## 🌐 Live Demo
 <div align="center"> [🔗 Try it Live](https://elecdeemtv.github.io/itemcalculator/) </div>
 

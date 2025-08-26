@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Items Earned Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020; --card:#121936; --text:#eaf0ff; --muted:#9fb0ff; --accent:#7c9bff; --ok:#8bffb0; --warn:#ffd28b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,Segoe UI,Roboto,Arial,Helvetica,sans-serif; color:var(--text);
+      background: radial-gradient(1200px 600px at 20% -10%, #1a245a 2%, transparent 60%),
+                  radial-gradient(900px 500px at 110% 10%, #1a245a 0%, transparent 55%),
+                  var(--bg);
+      display:flex; align-items:flex-start; justify-content:center; padding:48px 24px 24px;
+    }
+    .wrap{width:100%; max-width:720px}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      backdrop-filter: blur(8px);
+      border:1px solid rgba(255,255,255,0.12);
+      border-radius:20px; padding:28px; box-shadow:0 12px 40px rgba(0,0,0,0.45);
+    }
+    h1{margin:0 0 8px; font-size:28px; text-align:center}
+    p.lead{margin:0 0 18px; color:var(--muted); text-align:center}
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    input,button,select{
+      font:inherit; border-radius:14px; border:1px solid rgba(255,255,255,0.15);
+      background:#0f1530; color:var(--text); padding:14px 16px; outline:none;
+      transition:all .2s ease;
+    }
+    input{flex:1; min-width:200px}
+    button{cursor:pointer; font-weight:600; background:linear-gradient(180deg,#415cff,#5873ff); border:none}
+    button:hover{transform:scale(1.05)}
+    button.secondary{background:#0f1530}
+    .hint{font-size:12px; color:var(--muted); margin-top:8px}
+    .grid{display:grid; grid-template-columns:1fr; gap:12px; margin-top:16px}
+    .result{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    .tile{background:#0f1530; border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:16px; text-align:center; transition:transform .3s ease;}
+    .tile:hover{transform:translateY(-5px)}
+    .tile h3{margin:0; font-size:14px; color:var(--muted)}
+    .tile .val{font-size:28px; font-weight:700; margin-top:8px; transition:color .3s ease, transform .3s ease}
+    .ok{color:var(--ok)}
+    .warn{color:var(--warn)}
+    .examples{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; justify-content:center}
+    .chip{border:1px dashed rgba(255,255,255,0.24); padding:8px 10px; border-radius:999px; cursor:pointer; transition:all .2s ease}
+    .chip:hover{background:rgba(255,255,255,0.08)}
+    .footer{margin-top:16px; font-size:12px; color:var(--muted)}
+
+    .drops{margin-top:20px}
+    table{width:100%; border-collapse:collapse; margin-top:8px}
+    th,td{padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.1); text-align:left}
+    th{color:var(--muted); font-weight:600; font-size:14px}
+    td{font-size:14px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Items Earned Calculator</h1>
+      <p class="lead">Type a duration (e.g., <strong>10 h</strong>, <strong>90m</strong>, <strong>1h 30m</strong>, <strong>540s</strong>, <strong>1:30:00</strong>, or <strong>2 days</strong>). We convert it to seconds, divide by 10, and show how many items you can earn (1 item per 10 seconds).</p>
+
+      <div class="row">
+        <input id="timeInput" placeholder="Enter time… e.g. 10 h" autocomplete="off" />
+        <button id="calcBtn">Calculate</button>
+        <button id="clearBtn" class="secondary">Clear</button>
+      </div>
+      <div class="hint">Supported units: d, day(s) · h, hour(s) · m, min, minute(s) · s, sec, second(s). Also HH:MM:SS.</div>
+
+      <div class="grid">
+        <div class="result">
+          <div class="tile">
+            <h3>Total seconds</h3>
+            <div id="secondsOut" class="val">—</div>
+          </div>
+          <div class="tile">
+            <h3>Items (exact)</h3>
+            <div id="itemsExact" class="val">—</div>
+          </div>
+        </div>
+        <div class="result">
+          <div class="tile">
+            <h3>Items (rounded down)</h3>
+            <div id="itemsFloor" class="val ok">—</div>
+          </div>
+          <div class="tile">
+            <h3>Leftover seconds</h3>
+            <div id="leftover" class="val warn">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="examples">
+        <span class="chip" data-eg="10 h">10 h</span>
+        <span class="chip" data-eg="1h 30m">1h 30m</span>
+        <span class="chip" data-eg="540s">540s</span>
+        <span class="chip" data-eg="1:30:00">1:30:00</span>
+        <span class="chip" data-eg="2 days 5 hours">2 days 5 hours</span>
+      </div>
+
+      <div class="drops">
+        <h2>Drop Chances</h2>
+        <table>
+          <thead>
+            <tr><th>Item</th><th>Chance</th><th>Expected</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Grandmaster Sprinkler</td><td>0.003 %</td><td id="expGrand">—</td></tr>
+            <tr><td>Level Up Lollipop</td><td>0.003 %</td><td id="expLolli">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="footer">Formula: <code>items = total_seconds / 10</code>. Floor is shown as full items you can actually earn.</div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('timeInput');
+    const secondsOut = document.getElementById('secondsOut');
+    const itemsExact = document.getElementById('itemsExact');
+    const itemsFloor = document.getElementById('itemsFloor');
+    const leftover = document.getElementById('leftover');
+    const calcBtn = document.getElementById('calcBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const expGrand = document.getElementById('expGrand');
+    const expLolli = document.getElementById('expLolli');
+
+    function parseDurationToSeconds(str){
+      if(!str) return NaN;
+      str = String(str).trim();
+
+      if(/^\d{1,2}(:\d{1,2}){1,2}$/.test(str)){
+        const parts = str.split(':').map(Number);
+        let h=0,m=0,s=0;
+        if(parts.length===3){ [h,m,s] = parts; }
+        if(parts.length===2){ [m,s] = parts; }
+        return (h*3600)+(m*60)+s;
+      }
+
+      const pattern = /([+-]?\d*\.?\d+)\s*(d|day|days|h|hr|hrs|hour|hours|m|min|mins|minute|minutes|s|sec|secs|second|seconds)\b/gi;
+      let match, total = 0, found=false;
+      while((match = pattern.exec(str))){
+        found = true;
+        const value = parseFloat(match[1]);
+        const unit = match[2].toLowerCase();
+        if(['d','day','days'].includes(unit)) total += value * 86400;
+        else if(['h','hr','hrs','hour','hours'].includes(unit)) total += value * 3600;
+        else if(['m','min','mins','minute','minutes'].includes(unit)) total += value * 60;
+        else if(['s','sec','secs','second','seconds'].includes(unit)) total += value;
+      }
+
+      if(found) return total;
+
+      const bare = parseFloat(str.replace(/,/g,''));
+      if(!isNaN(bare)) return bare;
+
+      return NaN;
+    }
+
+    function animateValue(el, start, end, duration){
+      const range = end - start;
+      let startTime;
+      function step(timestamp){
+        if(!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp-startTime)/duration, 1);
+        const val = start + range*progress;
+        el.textContent = Number(val).toLocaleString(undefined,{maximumFractionDigits:0});
+        if(progress < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    function calculate(){
+      const secs = parseDurationToSeconds(input.value);
+      if(!isFinite(secs) || secs < 0){
+        secondsOut.textContent = 'Invalid time';
+        itemsExact.textContent = '—';
+        itemsFloor.textContent = '—';
+        leftover.textContent = '—';
+        expGrand.textContent = expLolli.textContent = '—';
+        return;
+      }
+      const items = secs / 10;
+      const full = Math.floor(items);
+      const remain = secs - full * 10;
+
+      animateValue(secondsOut, 0, secs, 600);
+      animateValue(itemsExact, 0, items, 600);
+      animateValue(itemsFloor, 0, full, 600);
+      animateValue(leftover, 0, remain, 600);
+
+      // Expected drops based on 0.003%
+      const chance = 0.00003; // 0.003 %
+      const expected = items * chance;
+      expGrand.textContent = expected.toFixed(3);
+      expLolli.textContent = expected.toFixed(3);
+    }
+
+    calcBtn.addEventListener('click', calculate);
+    clearBtn.addEventListener('click', () => {
+      input.value='';
+      secondsOut.textContent = itemsExact.textContent = itemsFloor.textContent = leftover.textContent = '—';
+      expGrand.textContent = expLolli.textContent = '—';
+      input.focus();
+    });
+
+    input.addEventListener('input', calculate);
+
+    document.querySelectorAll('.chip').forEach(ch => {
+      ch.addEventListener('click', () => { input.value = ch.dataset.eg; calculate(); });
+    });
+
+    input.value = '10 h';
+    calculate();
+  </script>
+</body>
+</html>

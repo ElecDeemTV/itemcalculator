@@ -74,8 +74,9 @@ A modern web tool to calculate how many items you can earn over a given duration
 ```js
 items = total_seconds / 10
 itemsFloor = Math.floor(items)
+leftover = total_seconds - (itemsFloor * 10)
+expected = items * 0.00003
 ```
 🌐 Live Demo
 <div align="center"> [🔗 Try it Live](https://elecdeemtv.github.io/itemcalculator/) </div>
-leftover = total_seconds - (itemsFloor * 10)
-expected = items * 0.00003
+

@@ -14,75 +14,68 @@ badges:
   - "License: https://img.shields.io/badge/License-MIT-green.svg"
 ---
 
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-%23E34F26.svg?style=flat&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-%231572B6.svg?style=flat&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-%23F7DF1E.svg?style=flat&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" />
+</p>
+
 # 🏆 Items Earned Calculator
 
-![HTML](https://img.shields.io/badge/HTML5-%23E34F26.svg?style=flat&logo=html5&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS3-%231572B6.svg?style=flat&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-%23F7DF1E.svg?style=flat&logo=javascript&logoColor=black)
-![License](https://img.shields.io/badge/License-MIT-green.svg)
+<div align="center">
 
-A modern web tool to calculate how many items you can earn over a given duration. Enter a time, and see total items, rounded items, leftover seconds, and expected rare drop chances instantly.  
+A modern web tool to calculate how many items you can earn over a given duration. Enter a time, and see total items, rounded items, leftover seconds, and expected rare drop chances instantly.
+
+</div>
 
 ---
 
 ## 🔹 Features
 
-- **Flexible Time Input** – supports:
-  - `d`, `day(s)` – days  
-  - `h`, `hour(s)` – hours  
-  - `m`, `minute(s)` – minutes  
-  - `s`, `second(s)` – seconds  
-  - `HH:MM:SS` – standard time format  
-- **Automatic Calculation** – 1 item per 10 seconds.  
-- **Results Display** – shows:
-  - Total seconds  
-  - Exact items  
-  - Rounded-down full items  
-  - Leftover seconds  
-- **Drop Chances** – expected values for rare items:
-  - Grandmaster Sprinkler – 0.003%  
-  - Level Up Lollipop – 0.003%  
-- **Interactive Examples** – click example chips to auto-fill input.  
+- **Flexible Time Input** – supports: d, h, m, s, and HH:MM:SS format  
+- **Automatic Calculation** – 1 item per 10 seconds  
+- **Results Display** – total seconds, exact items, full items, leftover seconds  
+- **Drop Chances** – expected values for rare items (0.003% chance each)  
+- **Interactive Examples** – click chips to auto-fill input  
 
 ---
 
 ## ⚡ Usage
 
-1. Enter a duration in the input field, for example:  
-2. Click **Calculate** or press Enter.  
-3. Results will appear in the corresponding tiles.  
-4. Use **Clear** to reset inputs and outputs.  
-5. Click on an example chip to automatically fill the input and calculate.  
+1. Enter a duration (e.g., `10 h`, `1h 30m`, `540s`, `1:30:00`, `2 days 5 hours`)  
+2. Click **Calculate** or press Enter  
+3. Results will appear in tiles  
+4. Use **Clear** to reset  
+5. Click example chips to auto-fill input  
 
 ---
 
 ## 💻 Installation / Local Usage
 
-1. Clone the repository or download `index.html`.  
-2. Open the file in your preferred web browser.  
-3. Fully functional offline – no server or dependencies required.  
+1. Clone repo or download `index.html`  
+2. Open in a browser  
+3. Works offline – no server or dependencies required  
 
 ---
 
 ## 🛠️ Technologies
 
-- **HTML5** – page structure  
-- **CSS3** – modern gradients, shadows, and hover effects  
-- **JavaScript** – parsing time input and calculating items dynamically  
+<div align="center">
+  <img src="https://img.shields.io/badge/HTML5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black" />
+</div>
 
 ---
 
 ## 📐 Formulas
 
 ```js
-// Items earned
 items = total_seconds / 10
-
-// Full items (rounded down)
 itemsFloor = Math.floor(items)
-
-// Leftover seconds
+```
+🌐 Live Demo
+<div align="center"> [🔗 Try it Live](https://elecdeemtv.github.io/itemcalculator/) </div>
 leftover = total_seconds - (itemsFloor * 10)
-
-// Expected rare drop (0.003%)
 expected = items * 0.00003
